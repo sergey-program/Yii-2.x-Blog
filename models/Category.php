@@ -45,7 +45,11 @@ class Category extends AbstractActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID'
+            'id' => 'ID',
+            'title' => \Yii::t('', 'Title'),
+            'description' => \Yii::t('', 'Description'),
+            'status' => \Yii::t('', 'Status'),
+            'timeCreate' => \Yii::t('', 'Time create')
         ];
     }
 
@@ -60,4 +64,31 @@ class Category extends AbstractActiveRecord
     }
 
     ### functions
+
+    /**
+     * @return array
+     */
+    public static function getStatusesAsDropDown()
+    {
+        return [
+            self::STATUS_HIDDEN => \Yii::t('', 'Hidden'),
+            self::STATUS_VISIBLE => \Yii::t('', 'Visible')
+        ];
+    }
+
+    /**
+     * @param int $iStatus
+     *
+     * @return string
+     */
+    public static function getStatusLabel($iStatus)
+    {
+        $aStatus = self::getStatusesAsDropDown();
+
+        if (isset($aStatus[$iStatus])) {
+            return $aStatus[$iStatus];
+        }
+
+        return \Yii::t('', 'Unknown');
+    }
 }

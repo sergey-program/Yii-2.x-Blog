@@ -3,7 +3,9 @@
 namespace app\modules\backendNewsCategories\controllers\_extend;
 
 use app\controllers\_extend\BackendController;
+use app\models\Category;
 use yii\filters\AccessControl;
+use yii\web\NotFoundHttpException;
 
 /**
  * Class AbstractController
@@ -29,7 +31,20 @@ abstract class AbstractController extends BackendController
         ];
     }
 
-    public function loadCategory($id){
+    /**
+     * @param int $id
+     *
+     * @return Category
+     * @throws NotFoundHttpException
+     */
+    public function loadCategory($id)
+    {
+        $mModel = Category::findOne($id);
 
+        if (!$mModel) {
+            throw new NotFoundHttpException('Category not found.');
+        }
+
+        return $mModel;
     }
 }
