@@ -53,6 +53,19 @@ class Category extends AbstractActiveRecord
         ];
     }
 
+    /**
+     * @return bool
+     * @throws \Exception
+     */
+    public function beforeDelete()
+    {
+        if ($this->posts) { // do not delete if own posts
+            return false;
+        }
+
+        return parent::beforeDelete();
+    }
+
     ### relations
 
     /**

@@ -43,6 +43,11 @@ $oFormatter = \Yii::$app->getFormatter();
                     </tr>
 
                     <tr>
+                        <td><?= $mPost->getAttributeLabel('category'); ?></td>
+                        <td><?= $oFormatter->asText($mPost->category->title); ?></td>
+                    </tr>
+
+                    <tr>
                         <td><?= $mPost->getAttributeLabel('status'); ?></td>
                         <td><?= $oFormatter->asText(Post::getStatusLabel($mPost->status)); ?></td>
                     </tr>

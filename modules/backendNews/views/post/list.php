@@ -30,6 +30,7 @@ use yii\widgets\Pjax;
                         ['attribute' => 'id'],
                         ['attribute' => 'title'],
                         ['attribute' => 'status', 'filter' => Post::getStatusesAsDropDown()],
+                        ['attribute' => 'category.title', 'label' => \Yii::t('', 'Category')],
                         ['class' => ActionColumn::className()]
                     ]
                 ]); ?>

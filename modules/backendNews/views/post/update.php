@@ -1,6 +1,8 @@
 <?php
 
+use app\models\Category;
 use app\models\Post;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -26,6 +28,7 @@ use yii\widgets\ActiveForm;
                 <?= $oForm->field($mPost, 'contentFull')->textarea(['rows' => 5]); ?>
                 <?= $oForm->field($mPost, 'contentShort')->textarea(['rows' => 2]); ?>
                 <?= $oForm->field($mPost, 'status')->dropDownList(Post::getStatusesAsDropDown()); ?>
+                <?= $oForm->field($mPost, 'categoryID')->dropDownList(ArrayHelper::map(Category::find()->all(), 'id', 'title'), ['prompt' => \Yii::t('', 'Select status') . '...']); ?>
             </div>
 
             <div class="panel-footer text-center">
