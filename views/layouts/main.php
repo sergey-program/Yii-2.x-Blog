@@ -63,15 +63,7 @@ AppAsset::register($this);
         <div class="container">
             <div class="row">
                 <div class="col-sm-3"></div>
-
-                <div class="col-sm-6 text-center">
-                    <div class="line-height-24">
-                        <?= Html::a(\Yii::t('', 'Add store'), ['/about/add-store'], ['class' => 'btn btn-default']); ?>
-                        <?= Html::a(\Yii::t('', 'Feedback'), ['/feedback'], ['class' => 'btn btn-default']); ?>
-                        <?= Html::a(\Yii::t('', 'About'), ['/about'], ['class' => 'btn btn-default']); ?>
-                    </div>
-                </div>
-
+                <div class="col-sm-6"></div>
                 <div class="col-sm-3 text-right">
                     <div class="line-height-16 margin-top-10">
                         <?= \Yii::$app->params['copyrightString']; ?>

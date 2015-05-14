@@ -20,11 +20,19 @@ abstract class AbstractController extends Controller
     }
 
     /**
-     * @return \yii\web\User
+     * @return \app\components\UserExtended
      */
     public function getUser()
     {
         return \Yii::$app->getUser();
+    }
+
+    /**
+     * @return \app\components\ViewExtended
+     */
+    public function getView()
+    {
+        return parent::getView();
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\controllers\_extend\FrontendController;
+use app\models\_formLogin;
 
 /**
  * Class AuthController
@@ -16,17 +17,21 @@ class AuthController extends FrontendController
      */
     public function actionLogin()
     {
+        $this->getView()->addBread(['label' => \Yii::t('', 'Login')]);
+
         if (!$this->getUser()->isGuest) {
             return $this->goHome();
         }
 
-        $model = new LoginForm();
+        $fLogin = new _formLogin();
 
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+        if ($this->isPostRequest() && $fLogin->load($this->getPostData())) {
+            if ($fLogin->login()) {
+                return $this->goBack();
+            }
         }
 
-        return $this->render('login', ['model' => $model]);
+        return $this->render('login', ['fLogin' => $fLogin]);
     }
 
     /**
@@ -34,8 +39,8 @@ class AuthController extends FrontendController
      */
     public function actionLogout()
     {
-        $this->getUser()->logout();
+        $this->getUser()->logout(false);
 
-        return $this->goHome();
+        return $this->goBack();
     }
 }
