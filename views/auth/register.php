@@ -19,12 +19,12 @@ use yii\bootstrap\ActiveForm;
             </p>
         <?php elseif ($this->getSession()->hasFlash('mailSent')): ?>
             <p class="alert alert-success text-center">
-                <?php if ($this->isLang('ru')): ?>На указанный email было выслано письмо с ссылкой для подтверждения аккаунта.<?php endif; ?>
-                <?php if ($this->isLang('en')): ?>Confirm mail was sent to your mail.<?php endif; ?>
+                <?php if ($this->isLang('ru')): ?>Аккаунт был создан. Вы можете зайти в него.<?php endif; ?>
+                <?php if ($this->isLang('en')): ?>Account was created. You can login now.<?php endif; ?>
             </p>
             <p class="alert alert-danger text-center">
-                <?php if ($this->isLang('ru')): ?>Неподтверждённые аккаунты будут удалены в течении месяца.<?php endif; ?>
-                <?php if ($this->isLang('en')): ?>Unconfirmed accounts will be deleted in a month.<?php endif; ?>
+                <?php if ($this->isLang('ru')): ?>На сайте отключена система подтверждения, поэтому аккаунту уже активен.<?php endif; ?>
+                <?php if ($this->isLang('en')): ?>Confirm via mail is disabled, so account is active now.<?php endif; ?>
             </p>
         <?php else: ?>
             <div class="panel panel-default">

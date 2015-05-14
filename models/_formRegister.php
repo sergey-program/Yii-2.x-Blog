@@ -64,8 +64,9 @@ class _formRegister extends Model
             $mUser->password = $oSecurity->generatePasswordHash($this->password);
             $mUser->email = $this->email;
             $mUser->authKey = $oSecurity->generateRandomString();
-            $mUser->isConfirmed = false;
-            $mUser->confirmHash = $oSecurity->generateRandomString(250);
+            $mUser->timeCreate = time();
+            // mail confirmed not exist so isConfirmed always true
+            $mUser->isConfirmed = true;
 
             if ($mUser->validate()) {
                 try {
