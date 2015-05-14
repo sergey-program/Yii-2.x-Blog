@@ -10,15 +10,17 @@ use yii\web\User;
  *
  * @package app\models
  *
- * @property int              $id
- * @property int              $userID
- * @property string           $title
- * @property string           $contentFull
- * @property string           $contentShort
- * @property int              $timeCreate
- * @property int              $status
+ * @property int                  $id
+ * @property int                  $userID
+ * @property string               $title
+ * @property string               $contentFull
+ * @property string               $contentShort
+ * @property int                  $timeCreate
+ * @property int                  $status
+ * @property int                  $categoryID
  *
- * @property \app\models\User $user
+ * @property \app\models\User     $user
+ * @property \app\models\Category $category
  */
 class Post extends AbstractActiveRecord
 {
@@ -40,7 +42,7 @@ class Post extends AbstractActiveRecord
     public function rules()
     {
         return [
-            [['userID', 'title', 'contentFull', 'contentShort', 'timeCreate', 'status'], 'required']
+            [['userID', 'title', 'contentFull', 'contentShort', 'timeCreate', 'status', 'categoryID'], 'required']
         ];
     }
 
@@ -57,7 +59,9 @@ class Post extends AbstractActiveRecord
             'contentFull' => \Yii::t('', 'Content full'),
             'contentShort' => \Yii::t('', 'Content short'),
             'timeCreate' => \Yii::t('', 'Time create'),
-            'status' => \Yii::t('', 'Status')
+            'status' => \Yii::t('', 'Status'),
+            'categoryID' => \Yii::t('', 'Category ID'),
+            'category' => \Yii::t('', 'Category'),
         ];
     }
 
@@ -69,6 +73,14 @@ class Post extends AbstractActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'userID']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategory()
+    {
+        return $this->hasOne(Category::className(), ['id' => 'categoryID']);
     }
 
     ### functions
