@@ -9,13 +9,13 @@ use app\modules\backendNewsCategories\controllers\_extend\AbstractController;
  *
  * @package app\modules\backendNewsCategories\controllers
  */
-class IndexController extends AbstractController
+class CategoryController extends AbstractController
 {
     /**
      * @return \yii\web\Response
      */
-    public function actionIndex()
+    public function actionList()
     {
-        return $this->redirect(['category/list']);
+        return $this->render('list');
     }
 }

@@ -29,13 +29,7 @@ abstract class AbstractController extends BackendController
         ];
     }
 
-    /**
-     *
-     */
-    public function init()
-    {
-        parent::init();
+    public function loadCategory($id){
 
-        $this->getView()->addBread(['label' => \Yii::t('', 'News Categories'), 'url' => ['index/index']]);
     }
 }
