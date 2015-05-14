@@ -2,102 +2,128 @@
 
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
+use app\models\_extend\AbstractActiveRecord;
+use yii\helpers\Url;
+
+/**
+ * Class User
+ *
+ * @package app\models
+ *
+ * @property int      $id
+ * @property string   $username
+ * @property string   $password
+ * @property string   $email
+ * @property int      $timeCreate
+ * @property string   $authKey
+ * @property int|bool $isConfirmed
+ * @property string   $confirmHash
+ *
+ * @property Store[]  $stores
+ */
+class User extends AbstractActiveRecord
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
-
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
+    const STATUS_ACTIVE = 'active';
+    const STATUS_DISABLED = 'disabled';
 
     /**
-     * @inheritdoc
+     * @return string
      */
-    public static function findIdentity($id)
+    public static function tableName()
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return 'user';
     }
 
     /**
-     * @inheritdoc
+     * @return array
      */
-    public static function findIdentityByAccessToken($token, $type = null)
+    public function rules()
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
+        return [
+            [['isConfirmed', 'confirmHash'], 'safe'],
+            [['username', 'password', 'email', 'authKey'], 'required'],
+            ['username', 'filter', 'filter' => 'trim'],
+            ['username', 'unique'],
+            ['email', 'email'],
+            [['isConfirmed', 'confirmHash'], 'default', 'skipOnEmpty' => false, 'value' => null]
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'username' => \Yii::t('', 'Username'),
+            'email' => \Yii::t('', 'Email'),
+            'timeCreate' => \Yii::t('', 'Time create'),
+            'isConfirmed' => \Yii::t('', 'Is confirmed')
+        ];
+    }
+
+    /**
+     * @return bool
+     */
+    public function beforeValidate()
+    {
+        if ($this->getIsNewRecord()) {
+            $this->timeCreate = time();
+        }
+
+        return parent::beforeValidate();
+    }
+
+    /**
+     * @param bool $insert
+     *
+     * @return bool|void
+     */
+    public function beforeSave($insert)
+    {
+        if ($this->isAttributeChanged('isConfirmed') && $this->isConfirmed) {
+            $this->confirmHash = null;
+        }
+
+        return parent::beforeSave($insert);
+    }
+
+    /**
+     * @return bool
+     */
+    public function beforeDelete()
+    {
+        \Yii::$app->getAuthManager()->revokeAll($this->id);
+
+        if ($this->stores) {
+            foreach ($this->stores as $mStore) {
+                $mStore->delete();
             }
         }
 
-        return null;
+        return parent::beforeDelete();
     }
 
+    ### relations
+
     /**
-     * Finds user by username
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStores()
+    {
+        return $this->hasMany(Store::className(), ['userID' => 'id']);
+    }
+
+    ### functions
+
+    /**
+     * @param bool $bAbsolute
      *
-     * @param  string      $username
-     * @return static|null
+     * @return string
      */
-    public static function findByUsername($username)
+    public function getConfirmUrl($bAbsolute = false)
     {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAuthKey()
-    {
-        return $this->authKey;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->authKey === $authKey;
-    }
-
-    /**
-     * Validates password
-     *
-     * @param  string  $password password to validate
-     * @return boolean if password provided is valid for current user
-     */
-    public function validatePassword($password)
-    {
-        return $this->password === $password;
+        return Url::to(['/auth/register-confirm', 'hash' => $this->confirmHash], $bAbsolute);
     }
 }

@@ -1,24 +1,35 @@
 #!/usr/bin/env php
 <?php
-/**
- * Yii console bootstrap file.
- *
- * @link http://www.yiiframework.com/
- * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
- */
 
-defined('YII_DEBUG') or define('YII_DEBUG', true);
+define('DS', DIRECTORY_SEPARATOR);
+define('FILE_PATH_ROOT', __DIR__ . DS);
+define('FILE_PATH_ROOT_WEB', FILE_PATH_ROOT . 'web' . DS);
+define('FILE_PATH_ROOT_UPLOAD', FILE_PATH_ROOT_WEB . 'uploads' . DS);
+define('FILE_PATH_VENDOR', FILE_PATH_ROOT . 'vendor' . DS);
+
+// folder for config
+$sEnvironment = 'test';
+$sEnvironment = file_exists(FILE_PATH_ROOT . '.dev') ? 'dev' : $sEnvironment;
+$sEnvironment = file_exists(FILE_PATH_ROOT . '.prod') ? 'prod' : $sEnvironment;
+defined('YII_ENV') or define('YII_ENV', $sEnvironment);
+
+// debug mode
+$bDebug = ($sEnvironment == 'test' || $sEnvironment == 'dev') ? true : false;
+defined('YII_DEBUG') or define('YII_DEBUG', $bDebug);
+
+define('FILE_PATH_CONFIG', FILE_PATH_ROOT . 'config' . DS);
+define('FILE_PATH_CONFIG_ENV', FILE_PATH_CONFIG . $sEnvironment . DS);
+
+require(FILE_PATH_VENDOR . 'autoload.php');
+require(FILE_PATH_VENDOR . 'yiisoft' . DS . 'yii2' . DS . 'Yii.php');
 
 // fcgi doesn't have STDIN and STDOUT defined by default
 defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
 defined('STDOUT') or define('STDOUT', fopen('php://stdout', 'w'));
 
-require(__DIR__ . '/vendor/autoload.php');
-require(__DIR__ . '/vendor/yiisoft/yii2/Yii.php');
+$aConfig = require(FILE_PATH_CONFIG_ENV . 'main_console.php');
 
-$config = require(__DIR__ . '/config/console.php');
+$oApplication = new yii\console\Application($aConfig);
+$sExitCode = $oApplication->run();
 
-$application = new yii\console\Application($config);
-$exitCode = $application->run();
-exit($exitCode);
+exit($sExitCode);
