@@ -3,7 +3,6 @@
 namespace app\models;
 
 use app\models\_extend\AbstractActiveRecord;
-use yii\web\User;
 
 /**
  * Class Post
