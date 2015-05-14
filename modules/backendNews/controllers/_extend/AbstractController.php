@@ -4,7 +4,9 @@ namespace app\modules\backendNews\controllers\_extend;
 
 
 use app\controllers\_extend\BackendController;
+use app\models\Post;
 use yii\filters\AccessControl;
+use yii\web\NotFoundHttpException;
 
 /**
  * Class AbstractController
@@ -31,12 +33,19 @@ abstract class AbstractController extends BackendController
     }
 
     /**
+     * @param int $id Post ID
      *
+     * @return Post
+     * @throws NotFoundHttpException
      */
-    public function init()
+    public function loadPost($id)
     {
-        parent::init();
+        $mModel = Post::findOne($id);
 
-        $this->getView()->addBread(['label' => \Yii::t('', 'News'), 'url' => ['index/index']]);
+        if (!$mModel) {
+            throw new NotFoundHttpException('Post not found');
+        }
+
+        return $mModel;
     }
 }

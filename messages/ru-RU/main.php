@@ -19,5 +19,17 @@ return [
     'Current password' => 'Текущий пароль',
     'New password' => 'Новый пароль',
     'New password (repeat)' => 'Новый пароль (повторите)',
-    'Apply' => 'Применить'
+    'Apply' => 'Применить',
+    'News' => 'Новости',
+    'News categories' => 'Категории новостей',
+    'Create' => 'Создать',
+    'Title' => 'Название',
+    'Content full' => 'Полное описание',
+    'Content short' => 'Короткое описание',
+    'Status' => 'Статус',
+    'Select status' => 'Выберите статус',
+    'Back' => 'Назад',
+    'Update' => 'Редактировать',
+    'Delete' => 'Удалить',
+    'Content' => 'Содержимое'
 ];

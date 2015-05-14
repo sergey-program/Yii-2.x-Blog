@@ -15,10 +15,12 @@ class m150514_150847_post extends Migration
     {
         $this->createTable('post', [
             'id' => 'pk',
+            'userID' => Schema::TYPE_INTEGER . ' NOT NULL',
             'title' => Schema::TYPE_STRING . ' NOT NULL',
             'contentFull' => Schema::TYPE_TEXT . ' NOT NULL',
             'contentShort' => Schema::TYPE_TEXT . ' NOT NULL',
             'timeCreate' => Schema::TYPE_BIGINT . ' NOT NULL',
+            'status' => Schema::TYPE_INTEGER . ' DEFAULT 0'
         ]);
 
         $this->createTable('post_image', [

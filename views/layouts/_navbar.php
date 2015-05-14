@@ -23,11 +23,10 @@ if ($this->getUser()->getIsGuest()) {
 } else {
     if ($this->getUser()->hasRole('admin')) {
         $aItems[] = [
-            'label' => \Yii::t('', 'Admin'),
+            'label' => \Yii::t('', 'Content'),
             'items' => [
-                ['label' => \Yii::t('', 'Feedbacks'), 'url' => ['/backend-feedbacks/index/index']],
-                ['label' => \Yii::t('', 'Users'), 'url' => ['/backend-users/index/index']],
-                ['label' => \Yii::t('', 'Lures'), 'url' => ['/backend-lures/index/index']]
+                ['label' => \Yii::t('', 'News'), 'url' => ['/backend-news/index/index']],
+                ['label' => \Yii::t('', 'News categories'), 'url' => ['/backend-news-categories/index/index']]
             ]
         ];
     }
