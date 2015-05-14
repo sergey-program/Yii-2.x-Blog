@@ -26,3 +26,8 @@ nbproject
 
 # local phpunit config
 #/phpunit.xml
+
+# environment
+.test
+.dev
+.prod

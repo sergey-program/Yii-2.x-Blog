@@ -2,6 +2,13 @@
 
 namespace app\controllers;
 
+use app\controllers\_extend\FrontendController;
+
+/**
+ * Class ErrorController
+ *
+ * @package app\controllers
+ */
 class ErrorController extends FrontendController
 {
     private $sDefaultName;

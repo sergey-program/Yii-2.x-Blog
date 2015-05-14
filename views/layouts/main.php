@@ -1,69 +1,90 @@
 <?php
-use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
-use app\assets\AppAsset;
 
-/* @var $this \yii\web\View */
-/* @var $content string */
+use yii\helpers\Html;
+use app\assets\AppAsset;
+use yii\widgets\Breadcrumbs;
 
 AppAsset::register($this);
-?>
-<?php $this->beginPage() ?>
-<!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
-<head>
-    <meta charset="<?= Yii::$app->charset ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
-</head>
-<body>
 
-<?php $this->beginBody() ?>
+/**
+ * @var \app\components\ViewExtended $this
+ * @var string                       $content
+ */
+?>
+
+<?php $this->beginPage(); ?>
+
+    <!DOCTYPE html>
+    <html lang="<?= $this->getLang(); ?>">
+
+    <head>
+        <meta charset="<?= $this->getCharset(); ?>"/>
+        <title><?= $this->getPageTitle(); ?></title>
+
+        <?php if ($this->getAllowIndex()): ?>
+            <meta name="description" content="<?= $this->getMetaDescription(); ?>">
+            <meta name="keywords" content="<?= $this->getMetaKeywords(); ?>">
+        <?php else: ?>
+            <meta name="robots" content="noindex">
+        <?php endif; ?>
+
+        <?= Html::csrfMetaTags() ?>
+        <?php $this->head(); ?>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="<?= \Yii::$app->getRequest()->getBaseUrl(); ?>/favicon.ico" type="image/x-icon"/>
+    </head>
+
+    <body>
+
+    <?php if ($this->getAllowAnalytic()): ?>
+        <?= $this->render('//layouts/_analytics.php'); ?>
+    <?php endif; ?>
+
+    <?php $this->beginBody(); ?>
+
     <div class="wrap">
-        <?php
-            NavBar::begin([
-                'brandLabel' => 'My Company',
-                'brandUrl' => Yii::$app->homeUrl,
-                'options' => [
-                    'class' => 'navbar-inverse navbar-fixed-top',
-                ],
-            ]);
-            echo Nav::widget([
-                'options' => ['class' => 'navbar-nav navbar-right'],
-                'items' => [
-                    ['label' => 'Home', 'url' => ['/site/index']],
-                    ['label' => 'About', 'url' => ['/site/about']],
-                    ['label' => 'Contact', 'url' => ['/site/contact']],
-                    Yii::$app->user->isGuest ?
-                        ['label' => 'Login', 'url' => ['/site/login']] :
-                        ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                            'url' => ['/site/logout'],
-                            'linkOptions' => ['data-method' => 'post']],
-                ],
-            ]);
-            NavBar::end();
-        ?>
+        <?= $this->render('_navbar'); ?>
 
         <div class="container">
-            <?= Breadcrumbs::widget([
-                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-            ]) ?>
-            <?= $content ?>
+            <?php if ($this->hasBread()): ?>
+                <div class="row hidden-xs">
+                    <div class="col-xs-12">
+                        <?= Breadcrumbs::widget(['links' => $this->getBread()]) ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?= $content; ?>
         </div>
     </div>
 
-    <footer class="footer">
+    <footer class="footer padding-top-10 padding-bottom-15">
         <div class="container">
-            <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-            <p class="pull-right"><?= Yii::powered() ?></p>
+            <div class="row">
+                <div class="col-sm-3"></div>
+
+                <div class="col-sm-6 text-center">
+                    <div class="line-height-24">
+                        <?= Html::a(\Yii::t('', 'Add store'), ['/about/add-store'], ['class' => 'btn btn-default']); ?>
+                        <?= Html::a(\Yii::t('', 'Feedback'), ['/feedback'], ['class' => 'btn btn-default']); ?>
+                        <?= Html::a(\Yii::t('', 'About'), ['/about'], ['class' => 'btn btn-default']); ?>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 text-right">
+                    <div class="line-height-16 margin-top-10">
+                        <?= \Yii::$app->params['copyrightString']; ?>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
 
-<?php $this->endBody() ?>
-</body>
-</html>
-<?php $this->endPage() ?>
+    <?php $this->endBody(); ?>
+
+    </body>
+
+    </html>
+
+<?php $this->endPage(); ?>

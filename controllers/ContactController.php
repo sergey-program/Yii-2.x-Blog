@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\controllers\_extend\FrontendController;
+
 /**
  * Class ContactController
  *
