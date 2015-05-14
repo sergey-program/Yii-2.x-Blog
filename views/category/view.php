@@ -1,5 +1,6 @@
 <?php
 
+use app\widgets\frontend\PostViewShort;
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
 
@@ -35,25 +36,12 @@ $oFormatter = \Yii::$app->getFormatter();
     <div class="col-md-8 col-md-offset-2">
 
         <?php foreach ($aPost as $mPost): ?>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="pull-right"><?= $oFormatter->asDatetime($mPost->timeCreate); ?></div>
-                    <h1 class="panel-title"><a href="<?= Url::to(['/post/view', 'id' => $mPost->id]); ?>"><?= $mPost->title; ?></a></h1>
-                </div>
-
-                <div class="panel-body">
-                    <?= $mPost->contentShort; ?>
-                </div>
-
-                <div class="panel-footer">
-                    <div class="pull-right"><a href="<?= Url::to(['/post/view', 'id' => $mPost->id]); ?>"><?= \Yii::t('', 'Details'); ?></a></div>
-                    <span><?= \Yii::t('', 'Author'); ?>: <?= $mPost->user->username; ?></span>
-                </div>
-            </div>
+            <?= PostViewShort::widget(['mPost' => $mPost]); ?>
         <?php endforeach; ?>
 
         <div class="text-center">
             <?= LinkPager::widget(['pagination' => $oPagination]); ?>
         </div>
+        
     </div>
 </div>

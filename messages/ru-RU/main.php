@@ -37,5 +37,9 @@ return [
     'Hidden' => 'Спрятанный',
     'Visible' => 'Видимый',
     'Unknown' => 'Неизвестный',
-    'Description' => 'Описание'
+    'Description' => 'Описание',
+    'Validated' => 'Проверен',
+    'Blocked' => 'Заблокирован',
+    'New' => 'Новый',
+    'Details' => 'Подробнее'
 ];

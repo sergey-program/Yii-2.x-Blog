@@ -18,4 +18,8 @@ return [
             'role' => 'user'
         ]
     ],
+    'postPerPage' => [
+        'category' => 5,
+        'index' => 5
+    ]
 ];

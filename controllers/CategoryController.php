@@ -35,7 +35,7 @@ class CategoryController extends FrontendController
             ->where(['categoryID' => $mCategory->id, 'status' => Post::STATUS_VALIDATED])
             ->orderBy('timeCreate DESC');
 
-        $oPagination = new Pagination(['totalCount' => $oQuery->count(),'defaultPageSize' => 5]);
+        $oPagination = new Pagination(['totalCount' => $oQuery->count(), 'defaultPageSize' => \Yii::$app->params['postPerPage']['category']]);
         $aPost = $oQuery->offset($oPagination->offset)->limit($oPagination->limit)->all();
 
         return $this->render('view', ['mCategory' => $mCategory, 'aPost' => $aPost, 'oPagination' => $oPagination]);
