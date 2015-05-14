@@ -1,31 +1,44 @@
 <?php
 
-Yii::setAlias('@tests', dirname(__DIR__) . '/tests');
-
-$params = require(__DIR__ . '/params.php');
-$db = require(__DIR__ . '/db.php');
-
 return [
-    'id' => 'basic-console',
-    'basePath' => dirname(__DIR__),
+    'id' => 'main-console',
+    'basePath' => FILE_PATH_ROOT,
     'bootstrap' => ['log', 'gii'],
+    'params' => require(FILE_PATH_CONFIG_ENV . '_param.php'),
     'controllerNamespace' => 'app\commands',
-    'modules' => [
-        'gii' => 'yii\gii\Module',
-    ],
     'components' => [
+        'db' => require(FILE_PATH_CONFIG_ENV . '_db.php'),
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => require(FILE_PATH_CONFIG_ENV . '_routes.php'),
+            'baseUrl' => 'http://git.blog',
+            'scriptUrl' => 'http://git.blog',
+        ],
+        'authManager' => require(FILE_PATH_CONFIG_ENV . '_auth.php'),
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'log' => [
-            'targets' => [
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
-                ],
-            ],
+        'i18n' => [
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => FILE_PATH_ROOT . 'messages',
+                    'fileMap' => [
+                        '' => 'main.php',
+                        'main' => 'main.php'
+                    ]
+                ]
+            ]
         ],
-        'db' => $db,
+        'log' => [
+            'traceLevel' => YII_DEBUG ? 3 : 0,
+            'targets' => [
+                ['class' => 'yii\log\FileTarget', 'levels' => ['error', 'warning']]
+            ]
+        ]
     ],
-    'params' => $params,
+    'modules' => [
+        'gii' => 'yii\gii\Module',
+    ],
 ];
