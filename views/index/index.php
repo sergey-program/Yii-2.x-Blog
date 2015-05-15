@@ -1,6 +1,7 @@
 <?php
 
 use app\widgets\frontend\PostViewShort;
+use yii\helpers\Url;
 use yii\widgets\LinkPager;
 
 /**
@@ -12,11 +13,11 @@ use yii\widgets\LinkPager;
 ?>
 
 <div class="row-fluid">
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="list-group">
 
             <?php foreach ($aCategory as $mCategory): ?>
-                <a href="#" class="list-group-item">
+                <a href="<?= Url::to(['/category/view', 'id' => $mCategory->id]); ?>" class="list-group-item">
                     <h4 class="list-group-item-heading"><?= $mCategory->title; ?></h4>
                     <p class="list-group-item-text"><?= $mCategory->description; ?></p>
                 </a>

@@ -9,17 +9,19 @@ use app\models\_extend\AbstractActiveRecord;
  *
  * @package app\models
  *
- * @property int                  $id
- * @property int                  $userID
- * @property string               $title
- * @property string               $contentFull
- * @property string               $contentShort
- * @property int                  $timeCreate
- * @property int                  $status
- * @property int                  $categoryID
+ * @property int                     $id
+ * @property int                     $userID
+ * @property string                  $title
+ * @property string                  $contentFull
+ * @property string                  $contentShort
+ * @property int                     $timeCreate
+ * @property int                     $status
+ * @property int                     $categoryID
  *
- * @property \app\models\User     $user
- * @property \app\models\Category $category
+ * @property \app\models\User        $user
+ * @property \app\models\Category    $category
+ * @property \app\models\PostImage   $primaryImage
+ * @property \app\models\PostImage[] $images
  */
 class Post extends AbstractActiveRecord
 {
@@ -80,6 +82,22 @@ class Post extends AbstractActiveRecord
     public function getCategory()
     {
         return $this->hasOne(Category::className(), ['id' => 'categoryID']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPrimaryImage()
+    {
+        return $this->hasOne(PostImage::className(), ['postID' => 'id'])->andWhere(['isPrimary' => true]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getImages()
+    {
+        return $this->hasMany(PostImage::className(), ['postID' => 'id']);
     }
 
     ### functions
