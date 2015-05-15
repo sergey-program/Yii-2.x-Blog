@@ -11,5 +11,11 @@ Installation
 6. Run `php yii test/generate-posts` (will not create images)
 7. Check index, have fun! ;)
 
+Yii 2 Json Console Import
+============================
+Example of .json file is located in /web/data.json
+
+To execute import you should call this one `php yii import/by-url http://localhost/data.json`, you can apply any url you need. 
+
 
 
