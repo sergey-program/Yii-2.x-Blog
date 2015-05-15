@@ -22,6 +22,12 @@ $oFormatter = \Yii::$app->getFormatter();
 
             <div class="panel-body">
                 <table class="table table-hover table-bordered">
+                    <?php if ($mPost->primaryImage): ?>
+                        <tr>
+                            <td colspan="2"><img class="img-thumbnail" src="<?= $mPost->primaryImage->getSrc(); ?>"></td>
+                        </tr>
+                    <?php endif; ?>
+
                     <tr>
                         <td class="width-200"><?= $mPost->getAttributeLabel('id'); ?></td>
                         <td><?= $oFormatter->asText($mPost->id); ?></td>

@@ -44,6 +44,21 @@ class PostImage extends AbstractActiveRecord
         return ['id' => 'ID'];
     }
 
+    /**
+     * @return bool
+     */
+    public function beforeDelete()
+    {
+        $bCanDelete = true;
+        $sFilePath = FILE_PATH_ROOT_UPLOAD . $this->fileName;
+
+        if (isset($sFilePath)) { // entry cannot exist without file
+            $bCanDelete = unlink($sFilePath);
+        }
+
+        return ($bCanDelete) ? parent::beforeDelete() : false;
+    }
+
     ### relations
 
     /**
@@ -55,4 +70,11 @@ class PostImage extends AbstractActiveRecord
     }
 
     ### functions
+    /**
+     * @return string
+     */
+    public function getSrc()
+    {
+        return '/uploads/' . $this->fileName;
+    }
 }

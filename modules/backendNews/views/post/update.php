@@ -7,8 +7,9 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /**
- * @var \app\components\ViewExtended $this
- * @var \app\models\Post             $mPost
+ * @var \app\components\ViewExtended     $this
+ * @var \app\models\Post                 $mPost
+ * @var \app\models\_formPostImageUpload $fPostImageUpload
  */
 ?>
 
@@ -40,5 +41,26 @@ use yii\widgets\ActiveForm;
             <?php ActiveForm::end(); ?>
         </div>
 
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading"><?= \Yii::t('', 'Upload image'); ?></div>
+
+            <?php $oForm = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+
+            <div class="panel-body">
+                <?= $oForm->field($fPostImageUpload, 'file')->fileInput(); ?>
+            </div>
+
+            <div class="panel-footer text-center">
+                <?= Html::submitButton(\Yii::t('', 'Upload'), ['class' => 'btn btn-primary']); ?>
+            </div>
+
+            <?php ActiveForm::end(); ?>
+
+        </div>
     </div>
 </div>

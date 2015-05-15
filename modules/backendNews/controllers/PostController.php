@@ -2,6 +2,7 @@
 
 namespace app\modules\backendNews\controllers;
 
+use app\models\_formPostImageUpload;
 use app\models\Post;
 use app\modules\backendNews\controllers\_extend\AbstractController;
 use app\modules\backendNews\models\_searchPost;
@@ -65,6 +66,8 @@ class PostController extends AbstractController
     public function actionUpdate($id)
     {
         $mPost = $this->loadPost($id);
+        $fPostImageUpload = new _formPostImageUpload();
+        $fPostImageUpload->postID = $id;
 
         if ($this->isPostRequest() && $mPost->load($this->getPostData())) {
             if ($mPost->save()) {
@@ -72,7 +75,13 @@ class PostController extends AbstractController
             }
         }
 
-        return $this->render('update', ['mPost' => $mPost]);
+        if ($this->isPostRequest() && $fPostImageUpload->load($this->getPostData())) {
+            if ($fPostImageUpload->upload()) {
+                return $this->redirect(['post/view', 'id' => $mPost->id]);
+            }
+        }
+
+        return $this->render('update', ['mPost' => $mPost, 'fPostImageUpload' => $fPostImageUpload]);
     }
 
     /**
