@@ -4,6 +4,7 @@ Installation
 
 1. Copy to root.
 2. Setup config test\dev\prod environment.
+2.1 Edit `/config/*env*/main_console.php` file, change your `baseUrl` and `scriptUrl` so console commands could be executed.
 3. Run `php yii migration/up` (read console)
 4. Run `php yii rbac/init`
 5. Run `php yii test/generate-categories`
