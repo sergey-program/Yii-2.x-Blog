@@ -18,7 +18,11 @@ $oFormatter = \Yii::$app->getFormatter();
         <h1 class="panel-title"><a href="<?= Url::to(['/post/view', 'id' => $mPost->id]); ?>"><?= $mPost->title; ?></a></h1>
     </div>
 
-    <div class="panel-body">
+    <div class="panel-body text-justify">
+        <?php if ($mPost->primaryImage): ?>
+            <img class="width-200 pull-left img-thumbnail margin-right-15" src="<?= $mPost->primaryImage->getSrc(); ?>">
+        <?php endif; ?>
+
         <?= $mPost->contentShort; ?>
     </div>
 

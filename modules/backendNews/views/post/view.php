@@ -24,7 +24,7 @@ $oFormatter = \Yii::$app->getFormatter();
                 <table class="table table-hover table-bordered">
                     <?php if ($mPost->primaryImage): ?>
                         <tr>
-                            <td colspan="2"><img class="img-thumbnail" src="<?= $mPost->primaryImage->getSrc(); ?>"></td>
+                            <td class="text-center" colspan="2"><img class="width-250 img-thumbnail" src="<?= $mPost->primaryImage->getSrc(); ?>"></td>
                         </tr>
                     <?php endif; ?>
 
@@ -50,7 +50,10 @@ $oFormatter = \Yii::$app->getFormatter();
 
                     <tr>
                         <td><?= $mPost->getAttributeLabel('category'); ?></td>
-                        <td><?= $oFormatter->asText($mPost->category->title); ?></td>
+                        <td>
+                            <div class="pull-right">ID: <?= $oFormatter->asText($mPost->category->id); ?></div>
+                            <?= $oFormatter->asText($mPost->category->title); ?>
+                        </td>
                     </tr>
 
                     <tr>
